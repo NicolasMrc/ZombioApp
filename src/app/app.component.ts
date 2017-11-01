@@ -12,28 +12,11 @@ import {forEach} from "@angular/router/src/utils/collection";
 export class AppComponent {
   title = 'ZOMBIO';
   text;
+  gameId : number = 1;
 
   constructor(private http: HttpClient) {}
 
   create(){
-    let soldiers = new Array<Soldier>();
-    soldiers.push(new Soldier(1,5));
-    soldiers.push(new Soldier(2,5));
-    soldiers.push(new Soldier(3,5));
-    soldiers.push(new Soldier(4,5));
-    soldiers.push(new Soldier(5,5));
-
-    let ordersToRun = new Map<number, Order>();
-    ordersToRun.set(1, new Order(1, null, null, null));
-    ordersToRun.set(2, new Order(null, null, null, 1));
-    ordersToRun.set(3, new Order(1, null, null, 1));
-    ordersToRun.set(4, new Order(null, null, null, 3));
-
-    /*var json = {
-      "waveToRun" : 30,
-      "soldiers" : soldiers,
-      "waveOrders"  : ordersToRun.get(1)
-    };*/
 
     var json = '{ ' +
       '"wavesToR un": 30, ' +
@@ -55,9 +38,14 @@ export class AppComponent {
 
     this.text = json;
 
-    const req = this.http.post('/api/items/add', json);
+    const req = this.http.post('localhost:8888/games', json);
     req.subscribe();
 
 
+  }
+
+  getGame(){
+    const req = this.http.get('localhost:8888/games/' + this.gameId);
+    req.subscribe();
   }
 }
